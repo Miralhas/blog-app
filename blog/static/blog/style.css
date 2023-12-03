@@ -1,0 +1,24 @@
+:root {
+    --text: #ffffff;
+    --background: #1A1A1A;
+    --primary: #3AB670;
+    --secondary: #2c2c2c;
+    --accent: #3ab670;
+    --card-background: #212121;
+}
+
+.hr-style{
+    border: 1px solid var(--text);
+}
+
+.border, .btn {
+    border-radius: 0px;
+}
+
+.comment-as {
+    font-size: small;
+}
+
+.comment-as span {
+    color: var(--accent);
+}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load markdownify %}
+{% load widget_tweaks %}
+
+{% block style %} <link rel="stylesheet" href="{% static 'blog/style.css' %}"> {% endblock style %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 mb-2 mt-3">
+                <div class="row" style="background-color: #212121;">
+                    <div class="col-8">
+                        <div class="card mb-2 p-2" style="border: none;">
+                            <div class="card-body">
+                                <form action="{% url 'blog:edit_post' post.slug %}" method="post">
+                                    {% csrf_token %}
+                                    <div id="postTitleDiv">
+                                        <h2 id="postTitle" class="card-title">{{post.title}}</h2>
+                                    </div>
+                                    <span style="color: white;">Author: </span><strong class="card-author">{{post.author.username}}</strong> <br />
+                                    <p class="card-date">{{post.date}}</p>
+                                    <div id="postContent">
+                                        <p class="card-text">{{ post.content | safe | markdownify }}</p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        {% if user == post.author %}
+                            <div class="d-flex justify-content-end p-4">
+                                <button id="editBtn" class="btn btn-outline-primary btn-sm mb-2">Edit Post</button>
+                                <form action="{% url 'blog:delete_post' post.slug %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-danger btn-sm mb-2 mx-2">Delete Post</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center ">
+            <div class="col-md-8 p-0">
+                <div class="card p-2">
+                    <div class="card-body">
+                        {% if user.is_authenticated %}
+                            <div class="post-comment">
+                                <form action="." method="post">
+                                    {% csrf_token %}
+                                    <label class="comment-as form-label" for="{{form.content.id_for_label}}">Comentar como <span>{{user.username}}</span></label>
+                                    {% render_field form.content rows="5" cols="20" class+="form-input border border-success form-control mb-2" %}
+                                    <button type="submit" class="btn btn-success btn-sm mt-2" >Enviar <i style="position: relative; top: 1.5px;" class="bi bi-arrow-right"></i> </button>
+                                </form>
+                            </div>
+                            <hr class="hr-style">
+                        {% endif %}
+
+                        <div class="all-comments">
+                            {% for comment in comments %}
+                                <small><strong style="padding-right: 1.5px;">{{comment.author.username}}</strong> <span style="opacity: 40%;"> · {{comment.date}} </span></small>
+                                <div class="px-1">
+                                    <p style="opacity: 80%;"> {{ comment.content | safe | markdownify }} </p>
+                                </div>
+                                {% empty %}
+                                    <p class="text-center">No comments yet.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'blog/script.js' %}"></script>
+{% endblock content %}

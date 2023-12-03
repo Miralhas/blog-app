@@ -1,0 +1,65 @@
+:root {
+    --text: #ffffff;
+    --background: #1A1A1A;
+    --primary: #3AB670;
+    --secondary: #2c2c2c;
+    --accent: #3ab670;
+    --card-background: #212121;
+}
+
+body {
+    background-color: var(--background);
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, small{
+    color: var(--text);
+}
+
+
+label{
+    color: var(--text);
+}
+
+.underline {
+    text-decoration: underline; 
+    text-decoration-color: green;
+}
+
+.card {
+    background-color: var(--card-background);
+}
+
+.card-title {
+    color: var(--text);
+}
+
+.card-author {
+    color: var(--accent);
+}
+
+.card-date {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    font-weight: bolder;
+}
+
+.asteriskField {
+    display: none;
+}
+
+.form-input {
+    border-radius: 0px;
+    margin-bottom: 10px;
+    background-color: var(--card-background);
+    color: var(--text);
+}
+
+.form-input:focus {
+    background-color: var(--card-background);
+    color: var(--text);
+}
+
+.form-control {
+    border-radius: 0px;
+}

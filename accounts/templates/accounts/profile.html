@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %} 
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
+    <style>
+        .profile-card {
+            color: white;
+            /* font-weight: bold; */
+        }
+        .profile-span {
+            color: #3ab670;
+            font-weight: bold;
+        }
+    </style>
+{% endblock style %}
+{% load markdownify %}
+
+{% block content %}
+    <div class="container py-2">
+        <div class="row justify-content-center">
+            <h1 class="underline text-center">Perfil</h1>
+            <div class="col-md-4 mt-3">
+                <h2 class="underline text-center">{{user.username}}</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <p class="profile-card">Usuário desde: <span class="profile-span">{{ user.date_joined }}</span></p>
+                        <p class="profile-card">Total de posts criados: <span class="profile-span">{{ user.owned_posts.all | length }}</span></p> 
+                        <p class="profile-card">Total de comentários: <span class="profile-span">{{ user.comments_made.all | length }}</span></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 mt-3">
+                <h2 class="text-center">Posts feitos:</h2>
+                {% for post in post_list %}
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ post.title }}</h3>
+                            <strong class="card-author">Author: {{post.author}}</strong> <br />
+                            <small class="card-date">{{post.date}}</small> 
+                            <p class="card-text">{{post.content | truncatewords:4 | markdownify }}</p>
+                            <a href="{% url 'blog:detail' post.slug %}" class="card-btn btn btn-success">Read More &rarr;</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
